@@ -13,19 +13,15 @@ type newsfeedPostRequest struct {
 	Post  string `json:"post"`
 }
 
-func NewsfeedPost(feed *newsfeed.Repo) gin.HandlerFunc {
+func NewsfeedPost(feed newsfeed.Adder) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		reqBody := newsfeedPostRequest{}
 		c.Bind(&reqBody)
-
 		item := newsfeed.Item{
 			Title: reqBody.Title,
 			Post:  reqBody.Post,
 		}
-
 		feed.Add(item)
-
 		c.Status(http.StatusNoContent)
 	}
-
 }
